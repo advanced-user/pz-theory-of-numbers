@@ -18,11 +18,12 @@ fn solve_equations() {
     let b = read_integer();
 
     let first_remainder = calculate_mod(a, m);
-    println!("{} mod {} = {}", a, m, first_remainder);
+    println!("\n{} mod {} = {} \n", a, m, first_remainder);
 
     let second_remainder = calculate_degree_by_module(a, b, m);
-    println!("{}^{} mod {} = {}", a, b, m, second_remainder);
+    println!("{}^{} mod {} = {} \n", a, b, m, second_remainder);
 
+    println!("{}*x ≡ {} mod {}", a, b, m);
     solve_linear_equation(a, b, m);
 }
 
@@ -66,17 +67,34 @@ fn calculate_degree_by_module(mut a: i128, mut b: i128, m: i128) -> i128 {
 
 // a*x ≡ b mod m
 fn solve_linear_equation(a: i128, b: i128, m: i128) {
-    let gcd = gcd(a, b);
-    if gcd == -1 {
+    if !is_relatively_prime_numbers(a, m) {
+        println!("It is impossible to solve this equation: {}*x ≡ {} mod {}", a, b, m);
         return;
     }
 
-    println!("gcd = {}", gcd);
+    let phi = phi(m);
+    println!("φ({}) = {}", m, phi);
+
+    let a_ = calculate_degree_by_module(a, phi - 1, m);
+    let result = calculate_mod(b * a_ ,m);
+
+    println!("x = {}", result);
+}
+
+fn is_relatively_prime_numbers(a: i128, m: i128) -> bool {
+    let gcd = gcd(a, m);
+    println!("gcd({}, {}) = {}", a, m, gcd);
+
+    if gcd != 1 {
+        return false;
+    }
+
+    true
 }
 
 fn gcd(mut a: i128, mut b: i128) -> i128 {
     if a < 0 || b < 0 {
-        println!("Unable to compute gcd. Numbers a and b must not be negative");
+        println!("Unable to calculate GCD. Numbers a and b must not be negative.");
         return -1;
     }
 
@@ -93,4 +111,19 @@ fn gcd(mut a: i128, mut b: i128) -> i128 {
     }
 
     a
+}
+
+fn phi(m: i128) -> i128 {
+    let mut result = 0;
+    for i in 1..m {
+        if gcd(i, m) == 1 {
+            result += 1;
+        }
+    }
+
+    result
+}
+
+fn generate_prime_number(a: i128, b: i128) {
+
 }
