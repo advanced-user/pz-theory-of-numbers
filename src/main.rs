@@ -1,10 +1,14 @@
 use std::io;
 
 fn main() {
-    solve_equations();
+    let data_for_equation = read_data_for_equations();
+    solve_equations(data_for_equation.0, data_for_equation.1, data_for_equation.2);
+
+    let range = read_range();
+    generate_prime_number(range.0, range.1);
 }
 
-fn solve_equations() {
+fn read_data_for_equations() -> (i128, i128, i128) {
     println!("Enter module m: ");
     let m = read_integer();
     if m < 0 {
@@ -17,14 +21,7 @@ fn solve_equations() {
     println!("Enter b: ");
     let b = read_integer();
 
-    let first_remainder = calculate_mod(a, m);
-    println!("\n{} mod {} = {} \n", a, m, first_remainder);
-
-    let second_remainder = calculate_degree_by_module(a, b, m);
-    println!("{}^{} mod {} = {} \n", a, b, m, second_remainder);
-
-    println!("{}*x ≡ {} mod {}", a, b, m);
-    solve_linear_equation(a, b, m);
+    (a, b, m)
 }
 
 fn read_integer() -> i128 {
@@ -35,6 +32,29 @@ fn read_integer() -> i128 {
 
     trimmed.parse::<i128>()
         .expect(&*format!("Unable to convert input to integer: {}", trimmed))
+}
+
+fn read_range() -> (i128, i128) {
+    println!("\nGenerating a prime number in a given range");
+
+    println!("Enter the beginning of the range: ");
+    let a = read_integer();
+
+    println!("Enter the end of the range: ");
+    let b = read_integer();
+
+    (a, b)
+}
+
+fn solve_equations(a: i128, b: i128, m: i128) {
+    let first_remainder = calculate_mod(a, m);
+    println!("\n{} mod {} = {} \n", a, m, first_remainder);
+
+    let second_remainder = calculate_degree_by_module(a, b, m);
+    println!("{}^{} mod {} = {} \n", a, b, m, second_remainder);
+
+    println!("{}*x ≡ {} mod {}", a, b, m);
+    solve_linear_equation(a, b, m);
 }
 
 // a mod m = x
