@@ -1,8 +1,8 @@
 use std::io;
 
 fn main() {
-    let data_for_equation = read_data_for_equations();
-    solve_equations(data_for_equation.0, data_for_equation.1, data_for_equation.2);
+    //let data_for_equation = read_data_for_equations();
+    //solve_equations(data_for_equation.0, data_for_equation.1, data_for_equation.2);
 
     let range = read_range();
     generate_prime_number(range.0, range.1);
@@ -144,6 +144,37 @@ fn phi(m: i128) -> i128 {
     result
 }
 
-fn generate_prime_number(a: i128, b: i128) {
+fn generate_prime_number(mut a: i128, b: i128) {
+    if b < 2 || b < a {
+        println!("There are no prime numbers in the given range");
+        return;
+    }
 
+    for i in a..b + 1 {
+        if is_prime_number(i) {
+            println!("Prime number: {}", i);
+            return;
+        }
+    }
+}
+
+fn is_prime_number(n: i128) -> bool {
+    if n <= 1 {
+        return false;
+    }
+
+    if n % 2 == 0 {
+        return n == 2
+    }
+
+    let mut i = 3;
+    while i <= f64::sqrt(n as f64) as i128 {
+        if n % i == 0 {
+            return false;
+        }
+
+        i += 2;
+    }
+
+    return true
 }
