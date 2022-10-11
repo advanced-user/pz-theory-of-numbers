@@ -1,11 +1,13 @@
 use std::io;
 
 fn main() {
-    //let data_for_equation = read_data_for_equations();
-    //solve_equations(data_for_equation.0, data_for_equation.1, data_for_equation.2);
+    let data_for_equation = read_data_for_equations();
+    solve_equations(data_for_equation.0, data_for_equation.1, data_for_equation.2);
+    find_reverse_element(data_for_equation.0, data_for_equation.2);
 
     let range = read_range();
     generate_prime_number(range.0, range.1);
+
 }
 
 fn read_data_for_equations() -> (i128, i128, i128) {
@@ -144,7 +146,7 @@ fn phi(m: i128) -> i128 {
     result
 }
 
-fn generate_prime_number(mut a: i128, b: i128) {
+fn generate_prime_number(a: i128, b: i128) {
     if b < 2 || b < a {
         println!("There are no prime numbers in the given range");
         return;
@@ -177,4 +179,19 @@ fn is_prime_number(n: i128) -> bool {
     }
 
     return true
+}
+
+fn find_reverse_element(a: i128, m: i128) {
+    println!("\nFind the reverse element");
+    println!("a = {}, m = {}", a, m);
+
+    if !is_relatively_prime_numbers(a, m) {
+        println!("Cannot find reverse element");
+        return;
+    }
+
+    let phi = phi(m);
+    let result = calculate_degree_by_module(a, phi - 1, m);
+
+    println!("Reverse element = {}", result);
 }
